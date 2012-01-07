@@ -37,3 +37,4 @@ end
 
 gem 'execjs'
 gem 'therubyracer'
+gem 'pg'
