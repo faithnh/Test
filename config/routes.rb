@@ -1,4 +1,8 @@
 Test::Application.routes.draw do
+  resources :categories
+
+  resources :words
+
   resources :logins
 
   resources :users

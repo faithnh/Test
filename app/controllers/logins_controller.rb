@@ -5,7 +5,7 @@ class LoginsController < ApplicationController
     @logins = Login.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html { redirect_to action: "new" }
       format.json { render json: @logins }
     end
   end
@@ -41,12 +41,15 @@ class LoginsController < ApplicationController
   # POST /logins.json
   def create
     @login = Login.new(params[:login])
-
+    user = User.find_by_userid(params[:userid])
     respond_to do |format|
-      if @login.save
-        format.html { redirect_to @login, notice: 'Login was successfully created.' }
+      if user != nil && user.password == params[:password]
+        reset_session
+        session[:userid] = user.userid
+        format.html { redirect_to controller: "words", action: "index" }
         format.json { render json: @login, status: :created, location: @login }
       else
+        flash[:notice] = 'Userid or password is unavailable!'
         format.html { render action: "new" }
         format.json { render json: @login.errors, status: :unprocessable_entity }
       end
@@ -72,11 +75,9 @@ class LoginsController < ApplicationController
   # DELETE /logins/1
   # DELETE /logins/1.json
   def destroy
-    @login = Login.find(params[:id])
-    @login.destroy
-
+    reset_session
     respond_to do |format|
-      format.html { redirect_to logins_url }
+      format.html { redirect_to action: "new" }
       format.json { head :ok }
     end
   end

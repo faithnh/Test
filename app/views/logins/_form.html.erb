@@ -9,8 +9,22 @@
       <% end %>
       </ul>
     </div>
+    <div class="failure">
+    	<%= flash[:notice] %>
+    </div>
   <% end %>
-
+	<div class="field">
+		<p>
+			User ID<br />
+			<%= text_field_tag "userid" %>
+		</p>
+	</div>
+	<div class="field">
+		<p>
+			Password<br />
+			<%= text_field_tag "password" %>
+		</p>
+	</div>	
   <div class="actions">
     <%= f.submit %>
   </div>
